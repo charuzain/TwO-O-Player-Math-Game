@@ -10,36 +10,60 @@ def initialize
   @players =[@player1 ,@player2].shuffle
 end
 
+def initial_display
+    puts "-------------------NEW GAME-------------------"
+  puts "Welcome #{@player1.name} and #{@player2.name}"
+  puts "Let's start the game !!!!"
+  puts "------------------------------------------------"
+
+end
+
 def game_over?
   @player1.lives <= 0 || @player2.lives <= 0
+  
+end
+
+def display_score
+            puts " P1 : #{@player1.lives}/3  vs P2: #{@player2.lives}/3 "
+
 end
 
 
 def play
-  puts "let's start the game !"
-  puts @player1.inspect
-  puts @player2.inspect
-
+  initial_display
       until(game_over?) do
         @players.rotate!
         current_player = @players.first
-        # num1 = rand(20)+1
-        # num2 = rand(20)+1
-        # sum = num1 + num2
         question_answer = Question.qus_ans
         question = question_answer[0]
         answer =  question_answer[1]
+
         puts "#{current_player.name}: #{question}"
         player_response = gets.chomp.to_i
         if player_response !=  answer
-          puts "#{current_player.name}: Seriously? No !"
-          current_player.lives = current_player.lives-1
-          puts "P1 : #{@player1.lives}/3  vs P2: #{@player2.lives}/3 "
+          puts "#{current_player.name}:Seriously? No! Thats a wrong answer❌❌❌❌❌"
+          current_player.lives -= 1
+          display_score
+        else 
+            puts "#{current_player.name}: YES! You are correct!✅✅✅✅✅✅✅✅✅✅"
+            display_score
+
         end
+      if current_player.lives == 0 
+        puts "---------------------------------"
+
+        puts "Game over"
+        puts "#{@players.last.name} won with #{@players.last.lives}/3 score "
+
+        puts "---------------------------------"
+
+      else
+        puts "---------------------------------"
+        puts "      NEW TURN                   "
+        puts "---------------------------------"
+      end
     end
   end
 end
 
 
-game1 = Game.new
-game1.play
