@@ -1,4 +1,6 @@
 require './player.rb'
+require './question.rb'
+
 
 class Game
 
@@ -21,12 +23,15 @@ def play
       until(game_over?) do
         @players.rotate!
         current_player = @players.first
-        num1 = rand(20)+1
-        num2 = rand(20)+1
-        sum = num1 + num2
-        puts "#{current_player.name}: What does #{num1} plus #{num2} equal ?"
-        response = gets.chomp.to_i
-        if response != sum 
+        # num1 = rand(20)+1
+        # num2 = rand(20)+1
+        # sum = num1 + num2
+        question_answer = Question.qus_ans
+        question = question_answer[0]
+        answer =  question_answer[1]
+        puts "#{current_player.name}: #{question}"
+        player_response = gets.chomp.to_i
+        if player_response !=  answer
           puts "#{current_player.name}: Seriously? No !"
           current_player.lives = current_player.lives-1
           puts "P1 : #{@player1.lives}/3  vs P2: #{@player2.lives}/3 "
